@@ -29,9 +29,17 @@ async function run() {
    app.get('/services', async(req, res)=>{
     const query = {};
     const cursor =  serviceCollection.find(query);
-    const result = await cursor.toArray();
+    const result = await cursor.limit(3).toArray();
     res.send(result);
    })
+
+//    all data show service card 
+app.get('/service', async(req, res)=>{
+    const query = {};
+    const cursor = serviceCollection.find(query);
+    const result = await cursor.toArray();
+    res.send(result);
+})
 
   } finally {
     
