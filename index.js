@@ -25,6 +25,20 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
    const serviceCollection = client.db('visa').collection('services');
+   const reviewCollection = client.db('visa').collection('reviews');
+
+app.post('/reviews', async(req, res)=>{
+  const rewiews = req.body;
+  const result = await reviewCollection.insertOne(rewiews);
+  res.send(result);
+
+})
+app.get('/reviews', async(req, res)=>{
+  const query = {};
+  const cursor = reviewCollection.find(query);
+  const result = await cursor.toArray();
+  res.send(result);
+})
 
    app.get('/services', async(req, res)=>{
     const query = {};
