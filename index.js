@@ -39,12 +39,35 @@ app.get('/reviews', async(req, res)=>{
   const result = await cursor.toArray();
   res.send(result);
 });
-// delete
 
+app.get('/reviews/:id', async(req, res)=>{
+  const id = req.params.id;
+  const query = {_id : new ObjectId(id)};
+  const result = await reviewCollection.findOne(query);
+  res.send(result);
+})
+
+// delete
 app.delete('/reviews/:id', async(req, res)=>{
   const id = req.params.id;
   const query = { _id : new ObjectId(id)};
   const result = await reviewCollection.deleteOne(query);
+  res.send(result);
+})
+// update
+app.patch('/reviews/:id', async(req, res)=>{
+  const review =req.body;
+  console.log(review)
+  const id = req.params.id;
+  console.log(id)
+  const query = {_id : new Object(id)};
+  const updateDoc = {
+    $set:{
+      review: review
+    }
+  }
+  const result = await reviewCollection.updateOne(query, updateDoc);
+  console.log(result)
   res.send(result);
 })
 
